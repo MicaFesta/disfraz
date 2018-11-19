@@ -1,0 +1,58 @@
+class Fiesta {
+	var lugar
+	var fecha
+	var invitados = #{}
+	
+}
+
+class Invitado {
+	var disfraz
+	var edad
+}
+
+
+class Disfraz inherits Invitado {
+var nombre
+var puntos
+var fechaDeConfeccion
+var tipo
+
+}
+
+object disfrazGracioso inherits Disfraz {
+var nivelDeGracia
+	
+	method puntos(){
+		if(edad>50){
+			return nivelDeGracia * 3
+		}
+		
+	}
+}
+
+object disfrazTobaras inherits Disfraz {}
+
+object disfrazCaretas inherits Disfraz {
+var valorDelPersonaje
+	
+	method puntos(){
+		return valorDelPersonaje
+	}
+}
+
+object disfrazSexies inherits Disfraz {}
+
+object caprichoso inherits Invitado {
+ method conforme(){
+ 	return nombre.lenght().even()
+ }
+ 
+}
+
+object pretencioso inherits Disfraz {}
+
+object numerologo inherits Disfraz {}
+
+
+
+
