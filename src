@@ -1,57 +1,206 @@
 class Fiesta {
-	var lugar
-	var fecha
-	var invitados = #{}
+var lugar
+var fecha
+var invitados = #{}
+
+method esUnBodrio(){
+	return invitados.all({invitado => !invitado.estaConforme()})
+}
+
+method mejorDisfraz(){
+	return invitados.max({invitado => invitado.disfraz().puntaje()})
+	
+	}
+
+method algunoNoEstaContento(asistente1,asistente2){
+	return ((asistente1.estaConforme() && !asistente2.estaConforme()) || (!asistente1.estaConforme() && asistente2.estaConforme()))
+}
+
+method estanContentos(asistente1,asistente2){
+	return ((asistente1.estaConforme() && asistente2.estaConforme()))
+}
+
+method estanEnlaFiesta(asistente1,asistente2){
+	return invitados.contains(asistente1)&&invitados.contains(asistente2)
+}
+
+method intercambioDeDisfraces(asistente1,asistente2){
+	if (self.estanEnlaFiesta(asistente1, asistente2) && self.algunoNoEstaContento(asistente1, asistente2)){
+		var disfraz1 = asistente1.disfraz()
+		var disfraz2 = asistente2.disfraz()
+		
+		asistente1.disfraz(disfraz2)
+		asistente2.disfraz(disfraz1)
+		
+		if(!self.estanContentos(asistente1,asistente2)){
+			asistente1.disfraz(disfraz1)
+			asistente2.disfraz(disfraz2)
+		}
+	}
+}
+
+method fiestaInolvidable(){
+	return (!self.esUnBodrio()&&invitados.all({invitado => !invitado.esSexy()}))
+}
+
 	
 }
 
 class Invitado {
-	var disfraz
-	var edad
+var disfraz
+var edad
+var personalidad
+var estado	
+	
+method esSexy(){
+	personalidad.devolver()
+}
+	
+method estaConforme(){
+	estado.conforme(self)
+}	
+
+method disfraz(){
+	return disfraz
+}
+	
 }
 
 
-class Disfraz inherits Invitado {
+class DisfrazGracioso {
+var nivelDeGracia
+var nombre
+var puntos
+var fechaDeConfeccion
+var tipo
+	
+	method puntaje(edad){
+		if(edad>50){
+			return nivelDeGracia * 3
+		}
+		
+		return nivelDeGracia
+	}
+
+	method nombrePar(){
+	return nombre.lenght().even()
+	}
+
+
+
+	method puntajeMayoreIgual(cifra){
+	return puntos > 10 && puntos == cifra
+	}
+	
+}
+
+class DisfrazTobaras {
 var nombre
 var puntos
 var fechaDeConfeccion
 var tipo
 
+method puntaje(){}
+
+method nombrePar(){
+	return nombre.lenght().even()
 }
 
-object disfrazGracioso inherits Disfraz {
-var nivelDeGracia
-	
-	method puntos(){
-		if(edad>50){
-			return nivelDeGracia * 3
-		}
-		
-	}
+method puntajeMayoreIgual(cifra){
+	return puntos > 10 && puntos == cifra
 }
 
-object disfrazTobaras inherits Disfraz {}
+}
 
-object disfrazCaretas inherits Disfraz {
+object disfrazCaretas {
 var valorDelPersonaje
+var nombre
+var puntos
+var fechaDeConfeccion
+var tipo
 	
-	method puntos(){
+	method puntaje(){
 		return valorDelPersonaje
 	}
+	
+	method nombrePar(){
+	return nombre.lenght().even()
 }
 
-object disfrazSexies inherits Disfraz {}
+method puntajeMayoreIgual(cifra){
+	return puntos > 10 && puntos == cifra
+}
+}
 
-object caprichoso inherits Invitado {
- method conforme(){
- 	return nombre.lenght().even()
+class DisfrazSexies {
+var nombre
+var puntos
+var fechaDeConfeccion
+var tipo
+
+	method puntaje(persona){
+		return persona.esSexy()
+	}
+
+	method nombrePar(){
+	return nombre.lenght().even()
+	}
+
+	method puntajeMayoreIgual(cifra){
+	return puntos > 10 && puntos == cifra
+}
+
+//method hechoHaceMenosde30Dias(){
+//	return (fechaDeConfeccion.month() - date.month()) >1
+//}
+
+}
+
+
+object caprichoso{
+	
+ method conforme(disfraz){
+ 	return disfraz.nombrePar()
  }
  
 }
 
-object pretencioso inherits Disfraz {}
+object pretencioso{
+	
+	method conforme(disfraz){
+ 	return disfraz.hechoHaceMenosde30Dias()
+ }
+}
 
-object numerologo inherits Disfraz {}
+object numerologo{
+var cifra 
+
+ method conforme(disfraz){
+ 	return disfraz.puntajeMayoreIgual(cifra)
+ 	}
+ }
+
+
+
+object alegre {
+	method devolver(edad){
+		return false
+	}
+}
+
+object taciturno {
+	method devolver(edad){
+		return edad > 30
+	}
+}
+
+class Cambiante {
+var comoEstoy
+
+	method devolver(edad){
+		return comoEstoy.devolver(edad)
+	}
+}
 
 
 
